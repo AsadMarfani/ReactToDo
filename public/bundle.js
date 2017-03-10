@@ -12558,11 +12558,14 @@ module.exports = AddToDo;
 var React = __webpack_require__(6);
 var ToDoList = __webpack_require__(117);
 var AddToDo = __webpack_require__(115);
+var SearchToDo = __webpack_require__(250);
 var ToDo = React.createClass({
     displayName: 'ToDo',
 
     getInitialState: function getInitialState() {
         return {
+            searchTodos: '',
+            completedToDos: false,
             todos: [{
                 id: 1,
                 text: 'Complete ToDo List Project'
@@ -12581,18 +12584,24 @@ var ToDo = React.createClass({
     _handleAddToDo: function _handleAddToDo(newItem) {
         alert('new to do item : ' + newItem);
     },
+    _handleSearch: function _handleSearch(searchText, showCompletedTodos) {
+        this.setState({
+            searchTodos: searchText.toLowerCase(),
+            completedToDos: showCompletedTodos
+        });
+    },
     render: function render() {
         var todos = this.state.todos;
 
         return React.createElement(
             'div',
             null,
+            React.createElement(SearchToDo, { onSearch: this._handleSearch }),
             React.createElement(ToDoList, { todos: todos }),
             React.createElement(AddToDo, { onAddToDo: this._handleAddToDo })
         );
     }
 });
-
 module.exports = ToDo;
 
 /***/ }),
@@ -27635,6 +27644,49 @@ __webpack_require__(114);
 __webpack_require__(113);
 module.exports = __webpack_require__(112);
 
+
+/***/ }),
+/* 250 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var React = __webpack_require__(6);
+
+var SearchToDo = React.createClass({
+    displayName: "SearchToDo",
+
+    handleSearch: function handleSearch() {
+        var showcompletedTodos = this.refs.showCompletedTodos.checked;
+        var searchText = this.refs.searchToDo.value;
+
+        this.props.onSearch(searchText, showcompletedTodos);
+    },
+    render: function render() {
+        return React.createElement(
+            "div",
+            null,
+            React.createElement(
+                "div",
+                null,
+                React.createElement("input", { type: "search", placeholder: "Search Your ToDo", ref: "searchToDo", onChange: this.handleSearch })
+            ),
+            React.createElement(
+                "div",
+                null,
+                React.createElement("input", { type: "checkbox", id: "showComtodos", ref: "showCompletedTodos", onChange: this.handleSearch }),
+                React.createElement(
+                    "label",
+                    { htmlFor: "showComtodos" },
+                    "Show Completed ToDos"
+                )
+            )
+        );
+    }
+});
+
+module.exports = SearchToDo;
 
 /***/ })
 /******/ ]);
