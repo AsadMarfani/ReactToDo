@@ -10,4 +10,13 @@ describe('ToDo',()=>{
    it('should exist',()=>{
        expect(ToDo).toExist();
    });
+    it('should add new toDo item typed by the user',()=>{
+        var todoItem = 'test ToDo Item';
+        var todo = ReactTestutils.renderIntoDocument(<ToDo/>);
+
+        todo.setState({todos: []});
+        todo._handleAddToDo(todoItem);
+
+        expect(todo.state.todos[0].text).toBe(todoItem);
+    });
 });

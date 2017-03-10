@@ -2,6 +2,7 @@ var React = require('react');
 var ToDoList = require('ToDoList');
 var AddToDo = require('AddToDo');
 var SearchToDo = require('SearchToDo');
+var uuid = require('node-uuid');
 var ToDo = React.createClass({
     getInitialState: function () {
       return {
@@ -9,26 +10,35 @@ var ToDo = React.createClass({
           completedToDos: false,
           todos: [
               {
-                  id: 1,
+                  id: uuid(),
                   text: 'Complete ToDo List Project'
               },
               {
-                  id: 2,
+                  id: uuid(),
                   text: 'Watch Harry Porter and the Prisoner of Azkaban'
               },
               {
-                  id: 3,
+                  id: uuid(),
                   text: 'Best of Luck Wish to Her'
               },
               {
-                  id: 4,
+                  id: uuid(),
                   text: 'Namaz-e-Isha'
               }
           ]
       }
     },
     _handleAddToDo: function (newItem) {
-      alert('new to do item : ' + newItem);
+      console.log(...this.state.todos);
+        this.setState({
+           todos: [
+               ...this.state.todos,
+               {
+                   id: uuid(),
+                   text: newItem
+               }
+           ]
+        });
     },
     _handleSearch: function (searchText, showCompletedTodos) {
         this.setState({
