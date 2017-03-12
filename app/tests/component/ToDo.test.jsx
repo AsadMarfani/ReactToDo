@@ -19,4 +19,18 @@ describe('ToDo',()=>{
 
         expect(todo.state.todos[0].text).toBe(todoItem);
     });
+
+    it('should change the completed state of the specific id',()=>{
+        var todoItem = {
+            id: 11,
+            text: 'Test Item',
+            completed: false
+        };
+        var todoApp = ReactTestutils.renderIntoDocument(<ToDo/>);
+        todoApp.state.todos = [todoItem];
+
+        expect(todoApp.state.todos[0].completed).toBe(false);
+        todoApp._handleCompletedTodos(11);
+        expect(todoApp.state.todos[0].completed).toBe(true);
+    });
 });
