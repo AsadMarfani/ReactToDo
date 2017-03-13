@@ -3,6 +3,7 @@ var React = require('react');
 var ToDos = React.createClass({
     render: function () {
         var {id, text, completed, createdAt, completedAt} = this.props;
+        var className = completed ? 'todo todo-completed' : 'todo';
         var returnDataAndMsg = ()=>{
 
             let msg = 'Created At : ';
@@ -15,11 +16,16 @@ var ToDos = React.createClass({
           return msg + createCompleteDate;
         };
         return(
-            <div onClick = {()=>{
+            <div className= {className} onClick = {()=>{
                 this.props.onToggle(id);
             }}>
-                <input type="checkbox" checked = {completed}/> {text}
-                <p>{returnDataAndMsg()}</p>
+                <div>
+                    <input type="checkbox" checked = {completed}/>
+                </div>
+                <div>
+                    <p>{text}</p>
+                    <p className="todo__sub-text">{returnDataAndMsg()}</p>
+                </div>
             </div>
         );
     }
