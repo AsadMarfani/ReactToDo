@@ -7,6 +7,17 @@ var AddToDo = require('AddToDo');
 var SearchToDo = require('SearchToDo');
 var ToDoAPI = require('ToDoAPI');
 
+var actions = require('actions');
+var store = require('configureStore').configure();
+
+store.subscribe(()=>{
+    console.log('New State Is : ',store.getState());
+});
+
+store.dispatch(actions.addTodo('Clean The Room'));
+store.dispatch(actions.setSearchText('yard'));
+store.dispatch(actions.showCompletedTodos());
+
 var ToDo = React.createClass({
     getInitialState: function () {
       return {
