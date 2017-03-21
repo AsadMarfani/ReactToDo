@@ -3,7 +3,7 @@ var uuid = require('node-uuid');
 var moment = require('moment');
 
 var ToDoList = require('ToDoList');
-var AddToDo = require('AddToDo');
+import AddToDo from 'AddToDo';
 var SearchToDo = require('SearchToDo');
 var ToDoAPI = require('ToDoAPI');
 
@@ -64,7 +64,7 @@ var ToDo = React.createClass({
                         <div className = "container">
                             <SearchToDo onSearch = {this._handleSearch} />
                             <ToDoList/>
-                            <AddToDo onAddToDo = {this._handleAddToDo}/>
+                            <AddToDo/>
                         </div>        
                     </div>
                 </div>

@@ -40035,17 +40035,27 @@ module.exports = {
 "use strict";
 
 
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
 var React = __webpack_require__(8);
 
-var AddToDo = React.createClass({
+var _require = __webpack_require__(95),
+    connect = _require.connect;
+
+var actions = __webpack_require__(109);
+
+var AddToDo = exports.AddToDo = React.createClass({
     displayName: 'AddToDo',
 
     _onFormSubmit: function _onFormSubmit(e) {
         e.preventDefault();
+        var dispatch = this.props.dispatch;
+
         var todoItem = this.refs.todoItem.value;
         if (todoItem.length > 0) {
             this.refs.todoItem.value = '';
-            this.props.onAddToDo(todoItem);
+            dispatch(actions.addTodo(todoItem));
         }
         this.refs.todoItem.focus();
     },
@@ -40068,7 +40078,7 @@ var AddToDo = React.createClass({
     }
 });
 
-module.exports = AddToDo;
+exports.default = connect()(AddToDo);
 
 /***/ }),
 /* 302 */
@@ -40120,6 +40130,12 @@ module.exports = SearchToDo;
 "use strict";
 
 
+var _AddToDo = __webpack_require__(301);
+
+var _AddToDo2 = _interopRequireDefault(_AddToDo);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
 function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return Array.from(arr); } }
 
 var React = __webpack_require__(8);
@@ -40127,7 +40143,7 @@ var uuid = __webpack_require__(246);
 var moment = __webpack_require__(0);
 
 var ToDoList = __webpack_require__(304);
-var AddToDo = __webpack_require__(301);
+
 var SearchToDo = __webpack_require__(302);
 var ToDoAPI = __webpack_require__(300);
 
@@ -40204,7 +40220,7 @@ var ToDo = React.createClass({
                         { className: 'container' },
                         React.createElement(SearchToDo, { onSearch: this._handleSearch }),
                         React.createElement(ToDoList, null),
-                        React.createElement(AddToDo, { onAddToDo: this._handleAddToDo })
+                        React.createElement(_AddToDo2.default, null)
                     )
                 )
             )
