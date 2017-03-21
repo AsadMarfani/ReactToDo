@@ -20837,6 +20837,13 @@ var toggleTodo = exports.toggleTodo = function toggleTodo(id) {
     };
 };
 
+var loadToDosFromLocalStorage = exports.loadToDosFromLocalStorage = function loadToDosFromLocalStorage(todos) {
+    return {
+        type: 'LOAD_TODOS',
+        todos: todos
+    };
+};
+
 /***/ }),
 /* 110 */
 /***/ (function(module, exports, __webpack_require__) {
@@ -39939,17 +39946,20 @@ var _require2 = __webpack_require__(487),
     hashHistory = _require2.hashHistory;
 
 var ToDo = __webpack_require__(303);
+var ToDoAPI = __webpack_require__(300);
 
 var actions = __webpack_require__(109);
 var store = __webpack_require__(307).configure();
 
 store.subscribe(function () {
-    console.log('New State Is : ', store.getState());
+    var state = store.getState();
+    console.log('New State Is : ', state);
+    ToDoAPI.setTodos(state.todos);
 });
 
-store.dispatch(actions.addTodo('Clean The Room'));
-store.dispatch(actions.setSearchText('yard'));
-store.dispatch(actions.showCompletedTodos());
+var initialize = ToDoAPI.getTodos();
+
+store.dispatch(actions.loadToDosFromLocalStorage(initialize));
 
 //Load Foundation
 __webpack_require__(535);
@@ -40160,70 +40170,17 @@ var _SearchToDo2 = _interopRequireDefault(_SearchToDo);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return Array.from(arr); } }
-
 var React = __webpack_require__(8);
 var uuid = __webpack_require__(246);
 var moment = __webpack_require__(0);
 
 var ToDoList = __webpack_require__(304);
 
-var ToDoAPI = __webpack_require__(300);
 
 var ToDo = React.createClass({
     displayName: 'ToDo',
 
-    getInitialState: function getInitialState() {
-        return {
-            searchTodos: '',
-            completedToDos: false,
-            todos: ToDoAPI.getTodos()
-        };
-    },
-    componentDidUpdate: function componentDidUpdate() {
-        ToDoAPI.setTodos(this.state.todos);
-    },
-    _handleAddToDo: function _handleAddToDo(newItem) {
-        var _console;
-
-        (_console = console).log.apply(_console, _toConsumableArray(this.state.todos));
-        this.setState({
-            todos: [].concat(_toConsumableArray(this.state.todos), [{
-                id: uuid(),
-                text: newItem,
-                completed: false,
-                createdAt: moment().format('MMM Do, YYYY @ hh:mm:ss A'),
-                completedAt: undefined
-            }])
-        });
-    },
-    _handleCompletedTodos: function _handleCompletedTodos(id) {
-        var updatedTodos = this.state.todos.map(function (todo) {
-            if (todo.id === id) {
-                todo.completed = !todo.completed;
-                todo.completedAt = todo.completed ? moment().format('MMM Do, YYYY @ hh:mm:ss A') : undefined;
-            }
-
-            return todo;
-        });
-
-        this.setState({
-            todos: updatedTodos
-        });
-    },
-    _handleSearch: function _handleSearch(searchText, showCompletedTodos) {
-        this.setState({
-            searchTodos: searchText.toLowerCase(),
-            completedToDos: showCompletedTodos
-        });
-    },
     render: function render() {
-        var _state = this.state,
-            todos = _state.todos,
-            completedToDos = _state.completedToDos,
-            searchTodos = _state.searchTodos;
-
-        var filteredToDos = ToDoAPI.filteredToDOs(todos, completedToDos, searchTodos);
         return React.createElement(
             'div',
             null,
@@ -40241,7 +40198,7 @@ var ToDo = React.createClass({
                     React.createElement(
                         'div',
                         { className: 'container' },
-                        React.createElement(_SearchToDo2.default, { onSearch: this._handleSearch }),
+                        React.createElement(_SearchToDo2.default, null),
                         React.createElement(ToDoList, null),
                         React.createElement(_AddToDo2.default, null)
                     )
@@ -40435,6 +40392,8 @@ var todosReducer = exports.todosReducer = function todosReducer() {
                 }
                 return todo;
             });
+        case 'LOAD_TODOS':
+            return [].concat(_toConsumableArray(state), _toConsumableArray(action.todos));
         default:
             return state;
     };

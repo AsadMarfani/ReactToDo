@@ -23,3 +23,11 @@ export var toggleTodo = (id) => {
         id
     };
 };
+
+
+export var loadToDosFromLocalStorage = (todos)=>{
+    return {
+        type: 'LOAD_TODOS',
+        todos
+    }
+} 

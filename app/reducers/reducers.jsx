@@ -43,6 +43,11 @@ export var todosReducer = (state = [], action)=>{
                 }
                 return todo;
             });
+        case 'LOAD_TODOS':
+            return [
+                ...state,
+                ...action.todos
+            ];
         default:
             return state;
     };

@@ -38,4 +38,21 @@ describe('Actions',()=>{
         var response = actions.toggleTodo(action.id);
         expect(response).toEqual(action);
     });
+    it('should load todos',()=>{
+        var todos = [{
+            id: 111,
+            text: 'anything',
+            completed: false,
+            completedAt: undefined,
+            createdAt: 'Mar 22nd, 2017 @ 01:46:43 AM'
+        }];
+        var action = {
+            type: 'LOAD_TODOS',
+            todos
+        };
+
+        var response = actions.loadToDosFromLocalStorage(todos);
+ 
+        expect(response).toEqual(action);
+    });
 });
