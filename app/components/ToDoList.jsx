@@ -1,18 +1,18 @@
 var React = require('react');
 var {connect} = require('react-redux');
 var ToDos = require('ToDos');
-
+var ToDoAPI = require('ToDoAPI');
 
 var ToDoList = React.createClass({
     render: function () {
-        var {todos} = this.props;
+        var {todos, showCompleted, searchText} = this.props;
         var renderToDos = () => {
             if(todos.length === 0) {
                 return(
                     <h3 className="container__message">No ToDos Found :(</h3>
                 );
             }
-            return todos.map((todo)=>{
+            return ToDoAPI.filteredToDOs(todos,showCompleted,searchText).map((todo)=>{
                 return <ToDos key = {todo.id} {...todo}/> ;
             });
         }
@@ -23,16 +23,6 @@ var ToDoList = React.createClass({
         );
     }
 });
-// const mapStateToProps = (state, ownProps) => {
-//     // if you need to map some data from store 
-//     return {
-//         // some data from state here 
-//         todos: state.todos
-//     };
-// };
-
 module.exports =  connect((state)=>{
-    return {
-        todos: state.todos
-    }
+    return state;
 })(ToDoList);

@@ -40087,41 +40087,61 @@ exports.default = connect()(AddToDo);
 "use strict";
 
 
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
 var React = __webpack_require__(8);
 
-var SearchToDo = React.createClass({
-    displayName: "SearchToDo",
+var _require = __webpack_require__(95),
+    connect = _require.connect;
 
-    handleSearch: function handleSearch() {
-        var showcompletedTodos = this.refs.showCompletedTodos.checked;
-        var searchText = this.refs.searchToDo.value;
+var actions = __webpack_require__(109);
 
-        this.props.onSearch(searchText, showcompletedTodos);
-    },
+var SearchToDo = exports.SearchToDo = React.createClass({
+    displayName: 'SearchToDo',
+
+
     render: function render() {
+        var _this = this;
+
+        var _props = this.props,
+            dispatch = _props.dispatch,
+            showCompleted = _props.showCompleted,
+            searchText = _props.searchText;
+
         return React.createElement(
-            "div",
-            { className: "container__header" },
+            'div',
+            { className: 'container__header' },
             React.createElement(
-                "div",
+                'div',
                 null,
-                React.createElement("input", { type: "search", placeholder: "Search Your ToDo", ref: "searchToDo", onChange: this.handleSearch })
+                React.createElement('input', { type: 'search', placeholder: 'Search Your ToDo', value: searchText, ref: 'searchToDo', onChange: function onChange() {
+                        var searchText = _this.refs.searchToDo.value;
+                        dispatch(actions.setSearchText(searchText));
+                    } })
             ),
             React.createElement(
-                "div",
+                'div',
                 null,
-                React.createElement("input", { type: "checkbox", id: "showComtodos", ref: "showCompletedTodos", onChange: this.handleSearch }),
+                React.createElement('input', { type: 'checkbox', id: 'showComtodos', ref: 'showCompletedTodos', checked: showCompleted, onChange: function onChange() {
+                        dispatch(actions.showCompletedTodos());
+                    } }),
                 React.createElement(
-                    "label",
-                    { htmlFor: "showComtodos" },
-                    "Show Completed ToDos"
+                    'label',
+                    { htmlFor: 'showComtodos' },
+                    'Show Completed ToDos'
                 )
             )
         );
     }
 });
 
-module.exports = SearchToDo;
+exports.default = connect(function (state) {
+    return {
+        showCompleted: state.showCompleted,
+        searchText: state.searchText
+    };
+})(SearchToDo);
 
 /***/ }),
 /* 303 */
@@ -40134,6 +40154,10 @@ var _AddToDo = __webpack_require__(301);
 
 var _AddToDo2 = _interopRequireDefault(_AddToDo);
 
+var _SearchToDo = __webpack_require__(302);
+
+var _SearchToDo2 = _interopRequireDefault(_SearchToDo);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return Array.from(arr); } }
@@ -40144,7 +40168,6 @@ var moment = __webpack_require__(0);
 
 var ToDoList = __webpack_require__(304);
 
-var SearchToDo = __webpack_require__(302);
 var ToDoAPI = __webpack_require__(300);
 
 var ToDo = React.createClass({
@@ -40218,7 +40241,7 @@ var ToDo = React.createClass({
                     React.createElement(
                         'div',
                         { className: 'container' },
-                        React.createElement(SearchToDo, { onSearch: this._handleSearch }),
+                        React.createElement(_SearchToDo2.default, { onSearch: this._handleSearch }),
                         React.createElement(ToDoList, null),
                         React.createElement(_AddToDo2.default, null)
                     )
@@ -40244,12 +40267,16 @@ var _require = __webpack_require__(95),
     connect = _require.connect;
 
 var ToDos = __webpack_require__(305);
+var ToDoAPI = __webpack_require__(300);
 
 var ToDoList = React.createClass({
     displayName: 'ToDoList',
 
     render: function render() {
-        var todos = this.props.todos;
+        var _props = this.props,
+            todos = _props.todos,
+            showCompleted = _props.showCompleted,
+            searchText = _props.searchText;
 
         var renderToDos = function renderToDos() {
             if (todos.length === 0) {
@@ -40259,7 +40286,7 @@ var ToDoList = React.createClass({
                     'No ToDos Found :('
                 );
             }
-            return todos.map(function (todo) {
+            return ToDoAPI.filteredToDOs(todos, showCompleted, searchText).map(function (todo) {
                 return React.createElement(ToDos, _extends({ key: todo.id }, todo));
             });
         };
@@ -40270,18 +40297,8 @@ var ToDoList = React.createClass({
         );
     }
 });
-// const mapStateToProps = (state, ownProps) => {
-//     // if you need to map some data from store 
-//     return {
-//         // some data from state here 
-//         todos: state.todos
-//     };
-// };
-
 module.exports = connect(function (state) {
-    return {
-        todos: state.todos
-    };
+    return state;
 })(ToDoList);
 
 /***/ }),
