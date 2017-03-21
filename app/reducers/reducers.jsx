@@ -32,7 +32,7 @@ export var todosReducer = (state = [], action)=>{
                 }
             ];
             case 'TOGGLE_TODO':
-                var updatedTodo = state.map((todo)=>{
+                return state.map((todo)=>{
                     if(todo.id === action.id){
                         var nextCompleted = !todo.completed;
                         return {
@@ -43,7 +43,6 @@ export var todosReducer = (state = [], action)=>{
                     }
                     return todo;
                 });
-                return updatedTodo;
         default:
             return state;
     };

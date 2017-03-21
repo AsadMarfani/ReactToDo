@@ -1,4 +1,5 @@
 var React = require('react');
+var {connect} = require('react-redux');
 var ToDos = require('ToDos');
 
 
@@ -12,7 +13,7 @@ var ToDoList = React.createClass({
                 );
             }
             return todos.map((todo)=>{
-                return <ToDos key = {todo.id} {...todo} onToggle = {this.props.onToggle}/> ;
+                return <ToDos key = {todo.id} {...todo}/> ;
             });
         }
         return (
@@ -22,5 +23,16 @@ var ToDoList = React.createClass({
         );
     }
 });
+// const mapStateToProps = (state, ownProps) => {
+//     // if you need to map some data from store 
+//     return {
+//         // some data from state here 
+//         todos: state.todos
+//     };
+// };
 
-module.exports = ToDoList;
+module.exports =  connect((state)=>{
+    return {
+        todos: state.todos
+    }
+})(ToDoList);

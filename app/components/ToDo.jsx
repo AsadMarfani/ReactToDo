@@ -7,17 +7,6 @@ var AddToDo = require('AddToDo');
 var SearchToDo = require('SearchToDo');
 var ToDoAPI = require('ToDoAPI');
 
-var actions = require('actions');
-var store = require('configureStore').configure();
-
-store.subscribe(()=>{
-    console.log('New State Is : ',store.getState());
-});
-
-store.dispatch(actions.addTodo('Clean The Room'));
-store.dispatch(actions.setSearchText('yard'));
-store.dispatch(actions.showCompletedTodos());
-
 var ToDo = React.createClass({
     getInitialState: function () {
       return {
@@ -74,7 +63,7 @@ var ToDo = React.createClass({
                     <div className = "column small-centered small-11 medium-6 large-5">
                         <div className = "container">
                             <SearchToDo onSearch = {this._handleSearch} />
-                            <ToDoList todos = {filteredToDos} onToggle = {this._handleCompletedTodos}  />
+                            <ToDoList/>
                             <AddToDo onAddToDo = {this._handleAddToDo}/>
                         </div>        
                     </div>
