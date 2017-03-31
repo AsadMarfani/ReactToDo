@@ -23,24 +23,17 @@ export var todosReducer = (state = [], action)=>{
     switch(action.type){
         case 'ADD_TODO':
             return [
-                ...state,{
-                   id: uuid(),
-                   text: action.text,
-                   completed: false,
-                   createdAt: moment().format('MMM Do, YYYY @ hh:mm:ss A'),
-                   completedAt: undefined
-                }
+                ...state,
+                action.todo
             ];
-        case 'TOGGLE_TODO':
+        case 'UPDATE_TODO':
             return state.map((todo)=>{
                 if(todo.id === action.id){
-                    var nextCompleted = !todo.completed;
                     return {
                         ...todo,
-                        completed: nextCompleted,
-                        completedAt: nextCompleted ? moment().format('MMM Do, YYYY @ hh:mm:ss A') : undefined
-                    };
-                }
+                        ...action.updateTodo
+                    }
+                };
                 return todo;
             });
         case 'LOAD_TODOS':

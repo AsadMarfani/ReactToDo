@@ -91,12 +91,36 @@ firebaseRef.set({
 //   }
 // ];
 
-var nodesRef = firebaseRef.child('nodes');
+// var nodesRef = firebaseRef.child('nodes');
 
-nodesRef.on('value',(snapshot)=>{
-  console.log('Values In The Node Is : ',snapshot.key,snapshot.val());
+// nodesRef.on('child_added',(snapshot)=>{
+//   console.log('Child Added In The Node Is : ',snapshot.key,snapshot.val());
+// });
+// nodesRef.on('child_changed',(snapshot)=>{
+//   console.log('Child Changed In The Node Is : ',snapshot.key,snapshot.val());
+// });
+// nodesRef.on('child_removed',(snapshot)=>{
+//   console.log('Child Removed In The Node Is : ',snapshot.key,snapshot.val());
+// });
+
+// var nodeOne = nodesRef.push({
+//   text: 'Watch Harry Potter Movies!'
+// });
+
+// var nodeTwo = nodesRef.push({
+//   text: 'Complete Firebase tutorials'
+// });
+
+var todoRef = firebaseRef.child('todos');
+
+todoRef.on('child_added',(snapshot)=>{
+  console.log('New Added ToDo Item Is: ',snapshot.key, snapshot.val());
 });
 
-var newNodesRef = nodesRef.push({
-  text: 'Watch Harry Potter Movies!'
-})
+todoRef.push({
+  text: 'Pay Farmhouse Fund to Sameer ! '
+});
+
+todoRef.push({
+  text: 'Teach Ahmed Chapter 2 of Maths ! '
+});

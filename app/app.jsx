@@ -2,7 +2,6 @@ var React = require('react');
 var ReactDOM = require('react-dom');
 var {Provider} = require('react-redux');
 var {Route, Router, IndexRoute, hashHistory} = require('react-router');
-import './../playground/firebase/index';
 
 var ToDo = require('ToDo');
 var ToDoAPI = require('ToDoAPI');
@@ -10,15 +9,7 @@ var ToDoAPI = require('ToDoAPI');
 var actions = require('actions');
 var store = require('configureStore').configure();
 
-store.subscribe(()=>{
-    var state = store.getState();
-    console.log('New State Is : ',state);
-    ToDoAPI.setTodos(state.todos);
-});
-
-var initialize = ToDoAPI.getTodos();
-
-store.dispatch(actions.loadToDosFromLocalStorage(initialize));
+store.dispatch(actions.loadToDos());
 
 //Load Foundation
 require('style-loader!css-loader!foundation-sites/dist/css/foundation.min.css');

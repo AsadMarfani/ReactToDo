@@ -1,5 +1,8 @@
 var webpack = require('webpack');
 var HtmlWebpackPlugin = require('html-webpack-plugin');
+
+process.env.NODE_ENV = process.env.NODE_ENV || 'development'; 
+
 module.exports = {
 	entry: [
 	'script-loader!jquery/dist/jquery.min.js',
@@ -13,6 +16,11 @@ module.exports = {
 		new webpack.ProvidePlugin({
 			'$': 'jquery',
 			'jQuery': 'jquery'
+		}),
+		new webpack.optimize.UglifyJsPlugin({
+			compressor: {
+				warnings: false
+			}
 		}),
 		new HtmlWebpackPlugin({
       favicon: './app/images/favicon.ico'
@@ -33,6 +41,7 @@ module.exports = {
 			'./app/store'
 		],
 		alias: {
+			app:  __dirname + '/app',
 			ApplicationStyles: __dirname + '/app/styles/app.scss'
 		},
 		extensions: ['.js','.jsx']
