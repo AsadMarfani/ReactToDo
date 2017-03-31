@@ -1,5 +1,3 @@
-var $ = require('jQuery');
-
 module.exports = {
     filteredToDOs: function (todos,completedToDos,searchTodos) {
         //Filter Data according to Completed Status
