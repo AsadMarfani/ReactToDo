@@ -1,5 +1,5 @@
 var webpack = require('webpack');
-var HtmlWebpackPlugin = require('html-webpack-plugin');
+//var HtmlWebpackPlugin = require('html-webpack-plugin');
 
 process.env.NODE_ENV = process.env.NODE_ENV || 'development'; 
 
@@ -21,10 +21,7 @@ module.exports = {
 			compressor: {
 				warnings: false
 			}
-		}),
-		new HtmlWebpackPlugin({
-      favicon: './app/images/favicon.ico'
-    })
+		})
 	],
 	output: {
 		path: __dirname ,
