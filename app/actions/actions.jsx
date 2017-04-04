@@ -1,4 +1,4 @@
-import firebase, {firebaseRef} from 'app/firebase/index';
+import firebase, { firebaseRef, gitHubProvider } from 'app/firebase/index';
 import moment from 'moment';
 
 export var setSearchText = (searchText)=>{
@@ -87,3 +87,23 @@ export var addToDosToScreen = (todos)=>{
         todos
     }
 } 
+
+export var startLogin = ()=>{
+    return(dispatch, getState)=>{
+        return firebase.auth().signInWithPopup(gitHubProvider).then((result)=>{
+            console.log('Authorization Successfull!',result);
+        },(error)=>{
+            console.log('Un Authorized, error occured!', error);
+        });
+    }
+}
+
+export var startLogout = ()=>{
+    return (dispatch, getState)=>{
+        return firebase.auth().signOut().then(()=>{
+            console.log('Logged Out');
+        },(error)=>{
+            console.log('Error occurs');
+        });
+    }
+}
