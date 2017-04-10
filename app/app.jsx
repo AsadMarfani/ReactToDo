@@ -8,17 +8,18 @@ import router from 'app/router/router';
 
 firebase.auth().onAuthStateChanged((user)=>{
     if(user) {
+        store.dispatch(actions.logInCall(user.uid));
+        store.dispatch(actions.loadToDos());
         hashHistory.push('/todos');
     }
     else {
         hashHistory.push('/');
+        store.dispatch(actions.logOutCall());
     }
 });
 
 var actions = require('actions');
 var store = require('configureStore').configure();
-
-store.dispatch(actions.loadToDos());
 //Load Foundation
 require('style-loader!css-loader!foundation-sites/dist/css/foundation.min.css');
 $(document).foundation();

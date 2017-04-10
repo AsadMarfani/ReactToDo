@@ -22,7 +22,8 @@ export var startAddTodo = (text) => {
             createdAt: moment().format('MMM Do, YYYY @ hh:mm:ss A'),
             completedAt: null
         };
-        var todoRef = firebaseRef.child('todos').push(todo);
+        var uid = getState().auth.uid;
+        var todoRef = firebaseRef.child(`users/${uid}/todos`).push(todo);
         console.log(todoRef);
         return todoRef.then(()=>{
             dispatch(addTodo({
@@ -35,7 +36,8 @@ export var startAddTodo = (text) => {
 
 export var loadToDos = () => {
     return (dispatch, getState)=>{
-        var todosRef = firebaseRef.child('todos');
+        var uid = getState().auth.uid;
+        var todosRef = firebaseRef.child(`users/${uid}/todos`);
         return todosRef.once('value').then((snapshot)=>{
             var todos = snapshot.val() || {};
 
@@ -72,9 +74,9 @@ export var startToggleTodo = (id, completed)=>{
         var updateTodo = {
             completed,
             completedAt: completed ? moment().format('MMM Do, YYYY @ hh:mm:ss A') : null
-        };
-
-        var updateRef = firebaseRef.child(`todos/${id}`);
+        }
+        var uid = getState().auth.uid;
+        var updateRef = firebaseRef.child(`users/${uid}/todos/${id}`);
        return updateRef.update(updateTodo).then(()=>{
             dispatch(updateToDoStatus(id, updateTodo));
         })
@@ -105,5 +107,18 @@ export var startLogout = ()=>{
         },(error)=>{
             console.log('Error occurs');
         });
+    }
+}
+
+export var logInCall = (uid)=>{
+    return {
+        type: 'LOGIN',
+        uid
+    }
+}
+
+export var logOutCall = ()=>{
+    return {
+        type: 'LOGOUT'
     }
 }
