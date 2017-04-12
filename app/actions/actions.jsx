@@ -89,7 +89,6 @@ export var addToDosToScreen = (todos)=>{
         todos
     }
 } 
-
 export var startLogin = (buttonId)=>{
     return(dispatch, getState)=>{
         return firebase.auth().signInWithPopup(gitHubProvider).then((result)=>{
