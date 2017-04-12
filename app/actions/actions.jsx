@@ -92,20 +92,11 @@ export var addToDosToScreen = (todos)=>{
 
 export var startLogin = (buttonId)=>{
     return(dispatch, getState)=>{
-        if(buttonId === 1) {
         return firebase.auth().signInWithPopup(gitHubProvider).then((result)=>{
             console.log('Authorization Successfull!',result);
         },(error)=>{
             console.log('Un Authorized, error occured!', error);
         });
-    }
-    else if(buttonId === 2) {
-        return firebase.auth().signInWithPopup(fbProvider).then((result)=>{
-            console.log('Authorization Successfull!',result);
-        },(error)=>{
-            console.log('Un Authorized, error occured!', error);
-        });
-    }
     }
 }
 
